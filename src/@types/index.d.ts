@@ -1,23 +1,20 @@
 import type {
-	ChatInputApplicationCommandData,
-	ChatInputCommandInteraction,
 	Client,
 	Collection,
 	SlashCommandBuilder,
 	SlashCommandOptionsOnlyBuilder,
 	SlashCommandSubcommandBuilder,
-	CommandInteraction
 } from "discord.js";
 
 export declare type Handler = {
 	name: string;
-	execute: Function;
+	execute: function;
 };
 
 export declare type Event = {
 	name: string;
 	once: boolean;
-	execute: Function;
+	execute: function;
 };
 
 export interface SlashCommand extends ChatInputApplicationCommandData {
@@ -30,8 +27,6 @@ export interface SlashCommand extends ChatInputApplicationCommandData {
 		interaction: ChatInputCommandInteraction,
 	) => Promise<unknown>;
 }
-
-type Command = unknown;
 
 declare module "discord.js" {
 	export interface Client {
