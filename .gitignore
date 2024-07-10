@@ -1,0 +1,13 @@
+# Node
+node_modules
+
+# Environment Virables
+.env.*
+.env 
+!.env.example
+
+# Nix 
+result
+.direnv
+.devenv
+yarn.lock
