@@ -1,6 +1,6 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import type { Handler } from "./@types";
+import type { Handler } from "./types";
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 
 const client = new Client({
@@ -33,6 +33,7 @@ function loadHandler() {
 			handlers.push(handler);
 			console.log(`Loaded the handler ${file}.`);
 		} else {
+            console.log("name" in handler && "execute" in handler);
 			console.error(`Can't load the handler ${file}.`);
 		}
 	}

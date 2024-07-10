@@ -1,4 +1,5 @@
 import type {
+	ChatInputApplicationCommandData,
 	Client,
 	Collection,
 	SlashCommandBuilder,

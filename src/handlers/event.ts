@@ -1,7 +1,7 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Client } from "discord.js";
-import type { Event, Handler } from "../@types";
+import type { Event, Handler } from "../types";
 
 const handler: Handler = {
 	name: "EventHandlers",
