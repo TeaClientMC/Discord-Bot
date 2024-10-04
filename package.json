@@ -7,10 +7,10 @@
     "dev": "bun run ."
   },
   "dependencies": {
-    "discord.js": "^14.15.3"
+    "discord.js": "^14.16.3"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5.5.3"
+    "typescript": "^5.6.2"
   }
 }
