@@ -27,6 +27,8 @@
         {
           packages = with pkgs; [
             bun
+						typescript
+						nodePackages.typescript-language-server
           ];
 
 					# Agenix-shell
