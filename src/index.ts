@@ -19,6 +19,8 @@ const client = new Client({
 
 client.commands = new Collection();
 
+
+# TODO: Fix Handler
 const handlers: Handler[] = [];
 
 function loadHandler() {
