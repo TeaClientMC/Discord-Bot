@@ -1,50 +1,39 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    devenv.url = "github:cachix/devenv";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+		agenix-shell.url = "github:aciceri/agenix-shell";
   };
-  outputs =
-    inputs@{ flake-parts, nixpkgs, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.devenv.flakeModule ];
-      systems = nixpkgs.lib.systems.flakeExposed;
-      perSystem =
-        {
-          config,
-          self',
-          inputs',
-          lib,
-          pkgs,
-          system,
-          ...
-        }:
-        {
-          devenv.shells.default = {
-            difftastic.enable = true;
-            packages =
-              with pkgs;
-              [ ]
-              ++ (with pkgs.nodePackages; [
-                vscode-langservers-extracted
-                typescript-language-server
-              ]);
-            languages.javascript = {
-              enable = true;
-              bun = {
-                enable = true;
-                install.enable = true;
-              };
-              pnpm = {
-                enable = false;
-                install.enable = false;
-              };
-            };
 
-            languages.typescript = {
-              enable = true;
-            };
-            dotenv.enable = true;
-          };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+			imports = [
+    		inputs.agenix-shell.flakeModules.default
+  		];
+
+			agenix-shell.secrets = {	
+				token.file = ./secrets/token.age;
+			};
+
+      systems = inputs.nixpkgs.lib.systems.flakeExposed;
+      perSystem = {
+        pkgs,
+        config,
+        lib,
+        ...
+      }: 
+      {
+        devShells.default = pkgs.mkShell
+        {
+          packages = with pkgs; [
+            bun
+          ];
+
+					# Agenix-shell
+					shellHook = ''
+						source ${lib.getExe config.agenix-shell.installationScript}
+					'';
         };
+      };
     };
 }
