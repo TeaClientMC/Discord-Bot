@@ -4,7 +4,8 @@
   "module": "./src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run ."
+    "dev": "bun run .",
+    "format": "dprint fmt"
   },
   "dependencies": {
     "discord.js": "^14.16.3",
