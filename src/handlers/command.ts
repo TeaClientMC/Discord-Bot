@@ -5,7 +5,7 @@ import type { Handler } from "../types";
 
 const handler: Handler = {
 	name: "CommandHandler",
-	execute(client: Client<true>) {
+	async execute(client: Client<true>) {
 		const foldersPath = join(__dirname, "../commands");
 		const commandFolders = readdirSync(foldersPath);
 
@@ -18,7 +18,7 @@ const handler: Handler = {
 			);
 			for (const file of commandFiles) {
 				const filePath = join(commandsPath, file);
-				const command = require(filePath);
+				const { default: command } = await import(filePath);
 				if ("data" in command && "execute" in command) {
 					console.log(`Loaded the command ${file}.`);
 					commands.push(command.data.toJSON());
@@ -33,22 +33,20 @@ const handler: Handler = {
 		const rest = new REST().setToken(process.env.Token || "");
 
 		// Deploy commands
-		(async () => {
-			try {
-				console.log(`Trying to refresh ${commands.length} slashCommands.`);
-				// biome-ignore lint/suspicious/noExplicitAny: We Don't know data type
-				const data: any = await rest.put(
-					Routes.applicationCommands(process.env.AppID || ""),
-					{
-						body: commands,
-					},
-				);
+		try {
+			console.log(`Trying to refresh ${commands.length} slashCommands.`);
+			// biome-ignore lint/suspicious/noExplicitAny: We Don't know data type
+			const data: any = await rest.put(
+				Routes.applicationCommands(process.env.AppID || ""),
+				{
+					body: commands,
+				},
+			);
 
-				console.log(`Loaded ${data.length} slashCommands.`);
-			} catch (error) {
-				console.error(error);
-			}
-		})();
+			console.log(`Loaded ${data.length} slashCommands.`);
+		} catch (error) {
+			console.error(error);
+		}
 	},
 };
 

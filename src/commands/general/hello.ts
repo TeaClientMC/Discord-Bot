@@ -1,10 +1,7 @@
-import {
-	type ChatInputCommandInteraction,
-	SlashCommandBuilder,
-} from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import type { SlashCommand } from "../../types";
 
-export const command: SlashCommand = {
+const command: SlashCommand = {
 	data: new SlashCommandBuilder()
 		.setName("hello")
 		.setDescription("Replies with Hello!"),
@@ -12,3 +9,5 @@ export const command: SlashCommand = {
 		await interaction.reply("Hello!");
 	},
 };
+
+export default command;

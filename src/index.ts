@@ -22,29 +22,31 @@ client.commands = new Collection();
 // TODO: Fix Handler
 const handlers: Handler[] = [];
 
-function loadHandler() {
+async function loadHandler() {
 	const handlersPath = join(__dirname, "./handlers");
 	const handlersFiles = readdirSync(handlersPath).filter((file) =>
 		file.endsWith(".ts"),
 	);
+
 	for (const file of handlersFiles) {
 		const filePath = join(handlersPath, file);
-		const handler: Handler = require(filePath);
+		const { default: handler } = (await import(filePath)) as {
+			default: Handler;
+		};
 		if ("name" in handler && "execute" in handler) {
 			handlers.push(handler);
 			console.log(`Loaded the handler ${file}.`);
 		} else {
-			console.log("name" in handler && "execute" in handler);
 			console.error(`Can't load the handler ${file}.`);
 		}
 	}
 	console.log(`Loaded ${handlers.length} handlers.`);
 }
 
-function executeHandler(name?: string) {
+async function executeHandler(name?: string) {
 	for (const handler of handlers) {
-		if (name === undefined) handler.execute(client);
-		else if (name === handler.name) handler.execute(client);
+		if (name === undefined) await handler.execute(client);
+		else if (name === handler.name) await handler.execute(client);
 	}
 }
 
