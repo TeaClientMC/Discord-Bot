@@ -8,11 +8,11 @@
   },
   "dependencies": {
     "discord.js": "^14.16.3",
-    "dprint": "^0.47.2"
+    "dprint": "^0.47.5"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
-	"packageManager": "bun@1.1.29"
+  "packageManager": "bun@1.1.29"
 }
