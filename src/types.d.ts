@@ -9,7 +9,7 @@ import type {
 
 export declare type Handler = {
 	name: string;
-	execute: function;
+	execute: (client: Client<true>) => Promise<void>;
 };
 
 export declare type Event = {
@@ -18,16 +18,21 @@ export declare type Event = {
 	execute: function;
 };
 
-export interface SlashCommand extends ChatInputApplicationCommandData {
+export declare interface SlashCommand {
 	data:
 		| SlashCommandBuilder
 		| SlashCommandOptionsOnlyBuilder
 		| SlashCommandSubcommandBuilder;
-	execute: (
-		client: Client,
-		interaction: ChatInputCommandInteraction,
-	) => Promise<unknown>;
+	execute: (client: Client, interaction: Promise<unknown>) => Promise<unknown>;
 }
+
+export declare type SlashCommandType = {
+	data:
+		| SlashCommand
+		| SlashCommandOptionsOnlyBuilder
+		| SlashCommandSubcommandBuilder;
+	execute: function;
+};
 
 declare module "discord.js" {
 	export interface Client {
