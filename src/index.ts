@@ -19,8 +19,7 @@ const client = new Client({
 
 client.commands = new Collection();
 
-
-# TODO: Fix Handler
+// TODO: Fix Handler
 const handlers: Handler[] = [];
 
 function loadHandler() {
@@ -35,7 +34,7 @@ function loadHandler() {
 			handlers.push(handler);
 			console.log(`Loaded the handler ${file}.`);
 		} else {
-            console.log("name" in handler && "execute" in handler);
+			console.log("name" in handler && "execute" in handler);
 			console.error(`Can't load the handler ${file}.`);
 		}
 	}
