@@ -13,6 +13,7 @@
 
 			agenix-shell.secrets = {	
 				Token.file = ./secrets/devToken.age;
+				AppID.file = ./secrets/devAppID.age;
 			};
 
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
