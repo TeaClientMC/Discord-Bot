@@ -50,7 +50,7 @@ async function executeHandler(name?: string) {
 	}
 }
 
-loadHandler();
-executeHandler();
+await loadHandler();
+await executeHandler();
 
 client.login(process.env.Token || "");
