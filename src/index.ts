@@ -2,9 +2,9 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Handler } from "./types";
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
-import { drizzle } from 'drizzle-orm/bun-sqlite';
-import { Database } from 'bun:sqlite';
-
+import { drizzle } from "drizzle-orm/bun-sqlite";
+import { Database } from "bun:sqlite";
+import * as schema from "./schema";
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -23,8 +23,8 @@ client.commands = new Collection();
 
 // TODO: Fix Handler
 const handlers: Handler[] = [];
-const sqlite = new Database('sqlite.db');
-const db = drizzle({ client: sqlite });
+const sqlite = new Database("sqlite.db");
+const db = drizzle({ client: sqlite, schema });
 
 async function loadHandler() {
 	const handlersPath = join(__dirname, "./handlers");
