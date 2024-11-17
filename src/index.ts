@@ -2,6 +2,8 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Handler } from "./types";
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
+import { drizzle } from 'drizzle-orm/bun-sqlite';
+import { Database } from 'bun:sqlite';
 
 const client = new Client({
 	intents: [
@@ -21,6 +23,8 @@ client.commands = new Collection();
 
 // TODO: Fix Handler
 const handlers: Handler[] = [];
+const sqlite = new Database('sqlite.db');
+const db = drizzle({ client: sqlite });
 
 async function loadHandler() {
 	const handlersPath = join(__dirname, "./handlers");
@@ -54,3 +58,5 @@ await loadHandler();
 await executeHandler();
 
 client.login(process.env.Token || "");
+
+export { db };
