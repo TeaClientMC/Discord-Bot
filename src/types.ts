@@ -23,5 +23,6 @@ export declare interface SlashCommand {
 	data: SlashCommandBuilder
 	| SlashCommandOptionsOnlyBuilder
 	| SlashCommandSubcommandBuilder
-	execute: (client: Client, interaction: ChatInputCommandInteraction) => Promise<unknown>
+	execute: (client: Client, interaction: ChatInputCommandInteraction
+	) => Promise<unknown>
 }
