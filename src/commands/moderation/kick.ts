@@ -34,10 +34,10 @@ const command: SlashCommand = {
 				ephemeral: true,
 			});
 		}
-		const { options, user, guildID } = interaction;
+		const { options, user, guildID, guild } = interaction;
 		const target = options.getUser("user");
 		const reason = options.getString("reason") || "No reason given";
-		const guildName: string = interaction.guild.name;
+		const guildName: string = guild.name;
 		try {
 			db.insert(moderation).values({
 				guildID,
@@ -49,10 +49,10 @@ const command: SlashCommand = {
 			const targetembed = new EmbedBuilder()
 				.setColor("Red")
 				.setDescription(
-					`:x: You have been **Kicked** in ${guildname} for ${reason}`,
+					`:x: You have been **Kicked** in ${guildName} for ${reason}`,
 				);
 
-			target.send({ embeds: [targetembed] }).catch((err) => {
+			target.send({ embeds: [targetembed] }).catch((_) => {
 				const senderrorembed = new EmbedBuilder()
 					.setColor("Red")
 					.setDescription(
@@ -71,7 +71,7 @@ const command: SlashCommand = {
 			interaction.reply({ embeds: [embed] });
 		} catch (error) {
 			console.log(
-				`Error eccured while kicking, | input: ${userID} ${reason} | error: ${error}`,
+				`Error eccured while kicking, | input: ${user.id} ${reason} | error: ${error}`,
 			);
 		}
 	},
