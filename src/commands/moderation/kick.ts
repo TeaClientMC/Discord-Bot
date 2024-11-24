@@ -4,6 +4,7 @@ import {
 	SlashCommandBuilder,
 	PermissionsBitField,
 	EmbedBuilder,
+	type Interaction,
 } from "discord.js";
 import type { SlashCommand } from "../../types";
 import { db } from "../../index";
@@ -25,8 +26,16 @@ const command: SlashCommand = {
 				.setRequired(false),
 		),
 	async execute(client: Client, interaction: ChatInputCommandInteraction) {
+		if (!interaction.inCachedGuild()) {
+			await interaction.reply({
+				content: "Error eccured while kicking, not a cached guild.",
+				ephemeral: true,
+			});
+			return;
+		};
+
 		if (
-			interaction.member && !interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)
+			interaction.member  && !interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)
 		) {
 			return await interaction.reply({
 				content: "You don't have the permission to warn people!",
@@ -34,7 +43,7 @@ const command: SlashCommand = {
 			});
 		}
 		const { options, user, guildId, guild } = interaction;
-		const target = options.getUser("user");
+		const target = options.getMember("user");
 		const reason = options.getString("reason") || "No reason given";
 		const guildName: string = guild?.name || "no name";
 		if (!target) {
@@ -59,6 +68,8 @@ const command: SlashCommand = {
 				.setDescription(
 					`:x: You have been **Kicked** in ${guildName} for ${reason}`,
 				);
+			
+			
 
 			target.send({ embeds: [targetembed] }).catch((_) => {
 				const senderrorembed = new EmbedBuilder()
@@ -67,6 +78,7 @@ const command: SlashCommand = {
 						"The dm has not been sent because the person has their dm off or has blocked me!",
 					);
 				interaction.reply({ embeds: [senderrorembed] });
+				target.kick(reason);
 				return;
 			});
 
