@@ -5,7 +5,7 @@ const command: SlashCommand = {
 	data: new SlashCommandBuilder()
 		.setName("hello")
 		.setDescription("Replies with Hello!"),
-	async execute(interaction: ChatInputCommandInteraction) {
+	async execute(_, interaction: ChatInputCommandInteraction) {
 		await interaction.reply("Hello!");
 	},
 };

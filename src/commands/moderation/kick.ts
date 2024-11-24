@@ -1,6 +1,5 @@
 import {
 	ChatInputCommandInteraction,
-	User,
 	Client,
 	SlashCommandBuilder,
 	PermissionsBitField,
@@ -27,24 +26,33 @@ const command: SlashCommand = {
 		),
 	async execute(client: Client, interaction: ChatInputCommandInteraction) {
 		if (
-			!interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)
+			interaction.member && !interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)
 		) {
 			return await interaction.reply({
 				content: "You don't have the permission to warn people!",
 				ephemeral: true,
 			});
 		}
-		const { options, user, guildID, guild } = interaction;
+		const { options, user, guildId, guild } = interaction;
 		const target = options.getUser("user");
 		const reason = options.getString("reason") || "No reason given";
-		const guildName: string = guild.name;
+		const guildName: string = guild?.name || "no name";
+		if (!target) {
+			await interaction.reply({
+				content: "Error eccured while kicking, target not defined.",
+				ephemeral: true,
+			});
+			return;
+		}
+
 		try {
-			db.insert(moderation).values({
-				guildID,
-				userID: user.id,
+			await db.insert(moderation).values({
+				guildID: guildId,
+				userID: target.id,
 				reason,
 				type: "kick",
-			});
+			  });
+			  
 
 			const targetembed = new EmbedBuilder()
 				.setColor("Red")

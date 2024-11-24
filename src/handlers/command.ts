@@ -5,7 +5,7 @@ import type { Handler } from "../types";
 
 const handler: Handler = {
 	name: "CommandHandler",
-	async execute(client: Client<true>) {
+	execute: async (client: Client<boolean>): Promise<void> => {
 		const foldersPath = join(__dirname, "../commands");
 		const commandFolders = readdirSync(foldersPath);
 

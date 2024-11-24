@@ -5,7 +5,7 @@ import type { Event, Handler } from "../types";
 
 const handler: Handler = {
 	name: "EventHandlers",
-	async execute(client: Client<true>) {
+	execute: async (client: Client<boolean>): Promise<void> => {
 		const eventsPath = join(__dirname, "../events");
 		const eventFiles = readdirSync(eventsPath).filter(
 			(file) => file.endsWith(".js") || file.endsWith(".ts"),

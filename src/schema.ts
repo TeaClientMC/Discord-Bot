@@ -24,7 +24,7 @@ export const invites = sqliteTable("invites", {
 });
 
 export const moderation = sqliteTable("moderation", {
-	guildID: integer("guild_id").notNull().primaryKey(),
+	guildID: text("guild_id").primaryKey(),
 	userID: integer("user_id").notNull(),
 	reason: text("reason").notNull(),
 	type: text("type").notNull(),

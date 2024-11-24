@@ -1,6 +1,6 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import type { Handler } from "./types";
+import type { Handler, SlashCommand } from "@types";
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { Database } from "bun:sqlite";
@@ -58,5 +58,11 @@ await loadHandler();
 await executeHandler();
 
 client.login(process.env.Token || "");
+declare module "discord.js" {
+	export interface Client {
+		commands: Collection<unknown, SlashCommand>;
+	}
+}
+
 
 export { db };

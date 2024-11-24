@@ -3,7 +3,7 @@ import {
 	type Client,
 	Events,
 } from "discord.js";
-import type { Event } from "../@types";
+import type { Event } from "@types";
 
 const event: Event = {
 	name: Events.InteractionCreate,
@@ -22,7 +22,7 @@ const event: Event = {
 		}
 
 		try {
-			await command.execute(interaction);
+			await command.execute(client, interaction);
 		} catch (error) {
 			console.error(`Error executing ${interaction.commandName}`);
 			console.error(error);
