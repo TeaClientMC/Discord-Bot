@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { Handler, SlashCommand } from "@types";
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { drizzle } from "drizzle-orm/bun-sqlite";
+import { migrate } from "drizzle-orm/bun-sqlite/migrator";
 import { Database } from "bun:sqlite";
 import * as schema from "./schema";
 const client = new Client({
@@ -24,7 +25,8 @@ client.commands = new Collection();
 // TODO: Fix Handler
 const handlers: Handler[] = [];
 const sqlite = new Database("sqlite.db");
-const db = drizzle({ client: sqlite, schema });
+const db = drizzle(sqlite);
+migrate(db, { migrationsFolder: "./drizzle" });
 
 async function loadHandler() {
 	const handlersPath = join(__dirname, "./handlers");
